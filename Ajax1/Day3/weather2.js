@@ -1,0 +1,39 @@
+let getWeather = function () {
+
+    
+  
+    let cityName = document.querySelector("#textid").value;
+
+    let xhr = new XMLHttpRequest();
+    
+
+    let url ="https://api.openweathermap.org/data/2.5/weather?appid=7023923dd26a725da995c75b65864de5&units=metric&q=" + cityName;
+  
+    xhr.open("GET", url);
+    xhr.onload = () => {
+      const refjson = JSON.parse(xhr.responseText);
+      // lets do DOM Operation now in seprate method.
+      domOperationForResultDisplay(refjson);
+
+    };
+  
+    xhr.send();
+
+  };
+  
+  let domOperationForResultDisplay = (refjson) => {
+    console.log(refjson);
+    // lets read MAX and MIN temp
+    const maxTemp = refjson.main.temp_max;
+    const minTemp = refjson.main.temp_min;
+  
+    const parent = document.querySelector("#parent");
+  
+    // lets replace dummy value with Actual Data from the JSON response.
+  
+    const newElement = parent.children[0].cloneNode(true);
+    newElement.innerHTML = "MAX temp " + maxTemp + "     " + "MIN temp " + minTemp;
+  
+    parent.insertBefore(newElement, parent.firstChild);
+  
+};
